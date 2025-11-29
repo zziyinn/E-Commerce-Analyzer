@@ -6,9 +6,8 @@ cmds = [
   "npm install",
   "npm run build",
   "python -m venv venv",
-  "source venv/bin/activate",
-  "pip install --upgrade pip setuptools wheel",
-  "pip install -r requirements.txt"
+  "source venv/bin/activate && pip install --upgrade pip setuptools wheel",
+  "source venv/bin/activate && pip install -r requirements.txt"
 ]
 
 [start]
