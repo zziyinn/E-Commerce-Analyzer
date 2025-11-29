@@ -18,10 +18,12 @@ class MongoDBClient:
         
         try:
             # 创建 MongoDB 客户端
+            # macOS 上可能需要跳过 SSL 证书验证
             self.client = MongoClient(
                 settings.mongodb_url, 
-                serverSelectionTimeoutMS=5000,
-                tlsAllowInvalidCertificates=True  # 仅用于开发环境
+                serverSelectionTimeoutMS=10000,
+                tlsAllowInvalidCertificates=True,  # 允许无效证书（开发环境）
+                tls=True  # 明确启用 TLS
             )
             self.database = self.client[settings.mongodb_database]
             # 测试连接

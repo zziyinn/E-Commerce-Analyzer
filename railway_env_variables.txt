@@ -1,0 +1,20 @@
+# Railway 环境变量配置
+# 复制以下内容到 Railway Dashboard → Variables
+
+# ========== 必需变量 ==========
+MONGODB_URL=mongodb+srv://Ziyinzx_db_user:qihTWbIOb3HHvj22@cluster0.y0kykwv.mongodb.net/?retryWrites=true&w=majority
+MONGODB_DATABASE=amazon_products
+ENV=production
+VITE_API_BASE_URL=
+
+# ========== 推荐变量 ==========
+LOG_LEVEL=INFO
+
+# ========== 可选变量（根据需要取消注释） ==========
+# GOOGLE_AI_API_KEY=你的_google_ai_api_key
+# MAX_PRODUCTS_PER_SEARCH=20
+# DELAY_MIN=2.0
+# DELAY_MAX=5.0
+# HEADLESS=true
+# ENABLE_REQUEST_MONITORING=true
+# PROXY=

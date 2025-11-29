@@ -138,8 +138,22 @@ python3 scripts/crawl_beautifulsoup.py
 - ✅ 前后端完全分离
 - ✅ REST API 接口
 
+## 🚀 部署
+
+### Railway 部署
+项目已配置 Railway 部署，详细步骤请参考：
+- **[RAILWAY_DEPLOY.md](./RAILWAY_DEPLOY.md)** - Railway 部署完整指南
+- **[DEPLOY_CHECKLIST.md](./DEPLOY_CHECKLIST.md)** - 部署检查清单
+
+快速开始：
+1. 连接 GitHub 仓库到 Railway
+2. 配置环境变量（MongoDB 连接等）
+3. 部署自动完成
+
 ## 📚 文档
 
+- `RAILWAY_DEPLOY.md` - Railway 部署指南
+- `DEPLOY_CHECKLIST.md` - 部署检查清单
 - `MONGODB_SETUP.md` - MongoDB 配置指南
 - `AGENTS.md` - 开发规范
 

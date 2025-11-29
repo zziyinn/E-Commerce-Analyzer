@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     firecrawl_api_key: str = Field(alias="FIRECRAWL_API_KEY", default="fc-temp-key")
     mongodb_url: str = Field(alias="MONGODB_URL", default="")
     mongodb_database: str = Field(alias="MONGODB_DATABASE", default="amazon_products")
+    env: str = Field(alias="ENV", default="development")
     
     # 爬蟲設置
     max_products_per_search: int = Field(default=20, alias="MAX_PRODUCTS_PER_SEARCH")
@@ -36,6 +37,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+        extra = "ignore"  # 忽略额外的环境变量，避免验证错误
 
 
 settings = Settings()

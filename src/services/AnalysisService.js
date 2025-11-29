@@ -3,7 +3,10 @@
  * 提供各种数据分析功能的 API 调用
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+// 生产环境：如果 VITE_API_BASE_URL 为空或未设置，使用相对路径（前后端同域）
+// 开发环境：使用 localhost:8000
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
+  (import.meta.env.PROD ? '' : 'http://localhost:8000')
 
 export class AnalysisService {
   /**
