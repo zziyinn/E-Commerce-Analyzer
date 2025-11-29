@@ -3,13 +3,20 @@ AI 分析服务
 使用 Google Gemini API 分析爬取的产品数据，提供深度洞察
 """
 
-import google.generativeai as genai
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 from app.config import settings
 from app.db.mongodb import mongodb
 import json
 import re
+
+# 延迟导入 google.generativeai，避免启动时失败
+try:
+    import google.generativeai as genai
+    GENAI_AVAILABLE = True
+except ImportError as e:
+    GENAI_AVAILABLE = False
+    genai = None
 
 
 def _parse_price(price_str: Optional[str]) -> float:
@@ -147,6 +154,13 @@ async def analyze_with_ai(
     Returns:
         包含 AI 分析结果的字典
     """
+    # 检查 genai 是否可用
+    if not GENAI_AVAILABLE:
+        return {
+            "error": "Google Generative AI library not available. Please ensure grpc dependencies are installed.",
+            "insights": None
+        }
+    
     # 检查 API key
     if not settings.google_ai_api_key:
         return {
