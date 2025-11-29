@@ -9,22 +9,35 @@ import { z } from 'zod'
 // 生产环境：如果 VITE_API_BASE_URL 为空或未设置，使用相对路径（前后端同域）
 // 开发环境：使用 localhost:8000
 // 注意：import.meta.env.PROD 在 Vite 构建时会被替换为布尔值
-// 使用多种方式检测生产环境，确保可靠性
-const isProduction = import.meta.env.MODE === 'production' || 
-                     import.meta.env.PROD === true ||
-                     (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')
+// 关键：完全依赖运行时检查，因为构建时环境变量可能不正确
+function getApiBaseUrl() {
+  // 优先使用环境变量
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL
+  }
+  
+  // 运行时检查：如果不在 localhost，使用相对路径（生产环境）
+  if (typeof window !== 'undefined') {
+    const hostname = window.location.hostname
+    if (hostname !== 'localhost' && hostname !== '127.0.0.1' && !hostname.startsWith('192.168.')) {
+      return '' // 相对路径，前后端同域
+    }
+  }
+  
+  // 开发环境：使用 localhost:8000
+  return 'http://localhost:8000'
+}
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (isProduction ? '' : 'http://localhost:8000')
+const API_BASE_URL = getApiBaseUrl()
 
 // 调试日志
 console.log('[ProductService] Environment:', {
   MODE: import.meta.env.MODE,
   PROD: import.meta.env.PROD,
   VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
-  isProduction,
   API_BASE_URL,
-  hostname: typeof window !== 'undefined' ? window.location.hostname : 'N/A'
+  hostname: typeof window !== 'undefined' ? window.location.hostname : 'N/A',
+  origin: typeof window !== 'undefined' ? window.location.origin : 'N/A'
 })
 
 export class ProductService {

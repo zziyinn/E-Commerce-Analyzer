@@ -4,7 +4,7 @@ nixPkgs = ["nodejs-18_x", "python310", "python310Packages.pip", "python310Packag
 [phases.install]
 cmds = [
   "npm install",
-  "npm run build",
+  "NODE_ENV=production npm run build",
   "python -m venv venv",
   "source venv/bin/activate && pip install --upgrade pip setuptools wheel",
   "source venv/bin/activate && pip install -r requirements.txt"

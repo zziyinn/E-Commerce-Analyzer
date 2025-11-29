@@ -13,7 +13,7 @@ fi
 if [ ! -d "dist" ] || [ -z "$(ls -A dist)" ]; then
   echo "📦 Building frontend..."
   npm install
-  npm run build
+  NODE_ENV=production npm run build
 else
   echo "✅ Frontend already built, skipping build step"
 fi
