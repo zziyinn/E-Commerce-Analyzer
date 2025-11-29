@@ -56,6 +56,18 @@ app.include_router(products.router)
 app.include_router(scrape.router)
 app.include_router(analysis.router)
 
+# 注册特定路由（必须在 SPA 路由之前）
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+
+@app.get("/favicon.ico")
+def favicon():
+    """处理 favicon 请求，避免 404 错误"""
+    return Response(status_code=204)
+
+
 # 生产环境：提供静态文件服务
 if is_production:
     dist_path = Path(__file__).parent.parent.parent / "dist"
@@ -67,14 +79,28 @@ if is_production:
             app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
             print(f"[DEBUG] Mounted /assets from {assets_path}")
         
-        # 提供 index.html 用于前端路由（放在最后，作为 fallback）
+        # 根路径：返回 index.html
+        @app.get("/")
+        def root():
+            """根路径返回前端页面"""
+            index_file = dist_path / "index.html"
+            print(f"[DEBUG] Root path - index_file: {index_file}, exists: {index_file.exists()}")
+            if index_file.exists():
+                with open(index_file, "r", encoding="utf-8") as f:
+                    return Response(content=f.read(), media_type="text/html")
+            else:
+                print(f"[WARNING] index.html not found at {index_file}, dist_path exists: {dist_path.exists()}")
+                return {"message": "Amazon Products API", "version": "1.0.0", "is_production": True, "dist_exists": False}
+        
+        # SPA 路由：所有其他路径返回 index.html（必须在最后注册）
         @app.get("/{full_path:path}")
         async def serve_spa(full_path: str):
             """提供 SPA 支持，所有非 API 路由返回 index.html"""
-            # 排除 API 路由和文档路由（注意：health 路由已经在上面定义，这里不需要排除）
+            # 排除 API 路由和文档路由
             if (full_path.startswith("api/") or 
                 full_path.startswith("docs") or 
                 full_path.startswith("openapi.json") or
+                full_path == "health" or
                 full_path == "favicon.ico"):
                 return Response(status_code=404)
             
@@ -82,7 +108,7 @@ if is_production:
             if full_path.startswith("assets/"):
                 return Response(status_code=404)
             
-            # 返回 index.html
+            # 返回 index.html（Vue Router 会处理客户端路由）
             index_file = dist_path / "index.html"
             if index_file.exists():
                 with open(index_file, "r", encoding="utf-8") as f:
@@ -93,28 +119,9 @@ if is_production:
         print(f"[WARNING] dist directory not found at {dist_path}")
 
 
-@app.get("/")
-def root():
-    # 生产环境返回前端页面，开发环境返回 API 信息
-    if is_production:
-        dist_path = Path(__file__).parent.parent.parent / "dist"
-        index_file = dist_path / "index.html"
-        print(f"[DEBUG] Root path - is_production: {is_production}, index_file: {index_file}, exists: {index_file.exists()}")
-        if index_file.exists():
-            with open(index_file, "r", encoding="utf-8") as f:
-                return Response(content=f.read(), media_type="text/html")
-        else:
-            print(f"[WARNING] index.html not found at {index_file}, dist_path exists: {dist_path.exists()}")
-    return {"message": "Amazon Products API", "version": "1.0.0", "is_production": is_production, "dist_exists": (Path(__file__).parent.parent.parent / "dist").exists()}
-
-
-@app.get("/health")
-def health():
-    return {"status": "ok"}
-
-
-@app.get("/favicon.ico")
-def favicon():
-    """处理 favicon 请求，避免 404 错误"""
-    return Response(status_code=204)
+# 开发环境：根路径返回 API 信息
+if not is_production:
+    @app.get("/")
+    def root():
+        return {"message": "Amazon Products API", "version": "1.0.0", "is_production": False, "dist_exists": (Path(__file__).parent.parent.parent / "dist").exists()}
 
