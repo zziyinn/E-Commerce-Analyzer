@@ -627,12 +627,28 @@ export default {
     const loadSampleData = async () => {
       scraping.value = true
       try {
-        // 检测 API 基础 URL
-        const isProduction = typeof window !== 'undefined' && 
-                            window.location.hostname !== 'localhost' && 
-                            window.location.hostname !== '127.0.0.1'
-        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (isProduction ? '' : 'http://localhost:8000')
+        // 使用和 ProductService 相同的 API_BASE_URL 检测逻辑
+        const getApiBaseUrl = () => {
+          const envUrl = import.meta.env.VITE_API_BASE_URL
+          if (envUrl !== undefined && envUrl !== null && envUrl !== '') {
+            return envUrl
+          }
+          if (typeof window !== 'undefined' && window.location) {
+            const hostname = window.location.hostname
+            const isLocal = hostname === 'localhost' || 
+                            hostname === '127.0.0.1' || 
+                            hostname.startsWith('192.168.') ||
+                            hostname.startsWith('10.') ||
+                            hostname.startsWith('172.16.')
+            if (!isLocal) {
+              return '' // 相对路径，前后端同域
+            }
+          }
+          return 'http://localhost:8000'
+        }
+        const API_BASE_URL = getApiBaseUrl()
         const url = `${API_BASE_URL}/api/seed/sample-products`
+        console.log(`[Search] API_BASE_URL: "${API_BASE_URL}", Full URL: ${url}`)
         
         console.log(`[Search] Loading sample data from: ${url}`)
         

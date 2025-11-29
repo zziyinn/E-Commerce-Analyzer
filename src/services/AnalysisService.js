@@ -41,7 +41,8 @@ export class AnalysisService {
     if (category) params.append('category', category)
     if (platform) params.append('platform', platform)
     
-    const response = await fetch(`${API_BASE_URL}/api/analysis/price-trend?${params}`)
+    const apiBaseUrl = getApiBaseUrl()
+    const response = await fetch(`${apiBaseUrl}/api/analysis/price-trend?${params}`)
     if (!response.ok) {
       throw new Error(`Failed to get price trend: ${response.statusText}`)
     }
