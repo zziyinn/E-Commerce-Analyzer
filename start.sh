@@ -16,5 +16,6 @@ fi
 echo "🔧 Starting backend API..."
 # 设置生产环境变量
 export ENV=${ENV:-production}
-exec python run_api.py
+# 使用 python3 确保使用正确的 Python 版本
+exec python3 run_api.py
 
