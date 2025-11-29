@@ -1,0 +1,369 @@
+{
+  "common": {
+    "all": "All",
+    "compare": "Compare",
+    "developmentInProgress": "Feature in development, stay tuned",
+    "languages": {
+      "zh-CN": "简体中文",
+      "zh-TW": "繁体中文（暂未开放）",
+      "en": "English（暂未开放）"
+    },
+    "next": "Next",
+    "none": "No data",
+    "previous": "Previous",
+    "product": "Product",
+    "remove": "Remove",
+    "view": "View"
+  },
+  "compare": {
+    "actions": "Actions",
+    "analysis": "Compare Analysis",
+    "averagePrice": "Average Price",
+    "averageRating": "Average Rating",
+    "averageSales": "Average Sales",
+    "category": "Category",
+    "clearAll": "Clear All",
+    "competition": {
+      "high": "High Competition",
+      "medium": "Medium Competition",
+      "low": "Low Competition"
+    },
+    "competitionLabel": "Competition Level",
+    "emptyState": {
+      "cta": "Go to Search",
+      "description": "Add products from search page or watchlist to start comparing.",
+      "title": "No Products Selected"
+    },
+    "export": "Export Report",
+    "features": "Key Metrics",
+    "highestPrice": "Highest Price",
+    "highestRating": "Highest Rating",
+    "highestSales": "Highest Sales",
+    "lowestPrice": "Lowest Price",
+    "price": "Price",
+    "priceAnalysis": "Price Analysis",
+    "rating": "Rating",
+    "ratingAnalysis": "Rating Analysis",
+    "remove": "Remove from Compare",
+    "sales": "Sales",
+    "salesAnalysis": "Sales Analysis",
+    "selectedCount": "Selected {count} products",
+    "subtitle": "Compare market performance horizontally, quickly identify strengths and weaknesses",
+    "suggestions": "Optimization Suggestions",
+    "suggestionsDesc": "Focus on products with high profit margins and moderate competition, consider increasing promotion or restocking.",
+    "title": "Product Compare",
+    "viewDetails": "View Details"
+  },
+  "dashboard": {
+    "compareList": "Compare List",
+    "competitionAnalysis": "Competition Analysis",
+    "competitionBadges": {
+      "blueOcean": "Low Competition Blue Ocean",
+      "competitive": "Highly Competitive",
+      "redOcean": "Red Ocean"
+    },
+    "highCompetition": "High Competition",
+    "highProfit": "High Profit",
+    "hotProducts": "Hot Products",
+    "lowCompetition": "Low Competition",
+    "lowProfit": "Low Profit",
+    "mediumCompetition": "Medium Competition",
+    "mediumProfit": "Medium Profit",
+    "profitBadges": {
+      "goodPotential": "Good Potential",
+      "highPotential": "High Potential"
+    },
+    "profitDistribution": "Profit Distribution",
+    "strategyAdvisor": {
+      "greeting": "Hello, {name}! The following strategies can improve your product selection efficiency",
+      "suggestions": {
+        "categoryTrend": "Follow category trends and keep up with hot-selling categories in time.",
+        "priceAlert": "It is recommended to set price alerts for products with large profit fluctuations.",
+        "searchRecommendation": "Try new keyword combinations to expand product selection direction."
+      }
+    },
+    "subtitle": "Cross-platform real-time monitoring, master bestseller trends and risks",
+    "title": "Dashboard",
+    "todayFocus": "Today's Focus",
+    "totalProducts": "Total Products",
+    "trendAnalysis": {
+      "lastWeekTrend": "Last Week Trend",
+      "monthlyTrend": "Last 30 Days Trend",
+      "title": "Trend Analysis",
+      "weeklyTrend": "This Week Trend"
+    },
+    "viewAll": "View All",
+    "watchedProducts": "Watched Products"
+  },
+  "productDetail": {
+    "addToCompare": "Add to Compare",
+    "addToWatchlist": "Add to Watchlist",
+    "competition": {
+      "high": "High Competition",
+      "medium": "Medium Competition",
+      "low": "Low Competition"
+    },
+    "competitionLabel": "Competition Level",
+    "description": "Product Description",
+    "goBack": "Back to List",
+    "keywords": "Related Keywords",
+    "noDescription": "No description available",
+    "notFound": "Product not found",
+    "price": "Price",
+    "rating": "Rating",
+    "removeFromCompare": "Remove from Compare",
+    "removeFromWatchlist": "Remove from Watchlist",
+    "sales": "Sales",
+    "title": "Product Overview"
+  },
+  "products": {
+    "actions": {
+      "activate": "Activate",
+      "addingWip": "Add product feature is under development",
+      "analyticsWip": "Analytics page for product {id} is under construction",
+      "analyze": "View Analytics",
+      "compare": "Add to Compare",
+      "compared": "Added to Compare",
+      "deactivate": "Deactivate",
+      "edit": "Edit",
+      "editingWip": "Edit feature for product {id} is under development",
+      "exportWip": "Export feature is under development",
+      "importWip": "Import feature is under development",
+      "toggledStatus": "{name} has been switched to {status}"
+    },
+    "actionsLabel": "Actions",
+    "addProduct": "Add Product",
+    "categories": {
+      "all": "All Categories",
+      "electronics": "Electronics",
+      "fashion": "Fashion",
+      "home": "Home & Living"
+    },
+    "category": "Category",
+    "exportProducts": "Export Products",
+    "importProducts": "Import Products",
+    "margin": "Gross Margin",
+    "noProductsDesc": "No product data, try importing or adding new products.",
+    "price": "Price",
+    "productName": "Product Name",
+    "search": {
+      "placeholder": "Search product name, SKU or keywords"
+    },
+    "filter": {
+      "all": "All Platforms"
+    },
+    "profitMargin": "Profit Margin",
+    "sales": "Sales",
+    "searchPlaceholder": "Search product name, SKU or keywords",
+    "stats": {
+      "total": "Total Products",
+      "active": "Active Products",
+      "lowStock": "Low Stock",
+      "profitable": "High Profit Products"
+    },
+    "status": {
+      "active": "Active",
+      "all": "All Status",
+      "draft": "Draft",
+      "inactive": "Inactive"
+    },
+    "statusLabel": "Status",
+    "stock": "Stock",
+    "subtitle": "Centralized management of monitored products and batch operations",
+    "empty": "No data",
+    "table": {
+      "price": "Price",
+      "sales": "Sales"
+    },
+    "title": "Product Management",
+    "viewMode": {
+      "grid": "Grid View",
+      "table": "Table View"
+    }
+  },
+  "search": {
+    "allCategories": "All Categories",
+    "allPlatforms": "All Platforms",
+    "category": "Category",
+    "clearAllFilters": "Reset Filters",
+    "clearFilters": "Clear Filters",
+    "competition": "Competition",
+    "keyword": "Keyword",
+    "noPriceLimit": "No Price Limit",
+    "noResults": "No matching results",
+    "noResultsDesc": "Try changing keywords or loosening filter conditions.",
+    "placeholder": "Enter product name, hot keywords or SKU",
+    "platform": "Platform",
+    "priceRange": "Price Range",
+    "priceRanges": {
+      "range0_50": "0 - 50",
+      "range100_200": "100 - 200",
+      "range200_plus": "200+",
+      "range50_100": "50 - 100"
+    },
+    "resultsCount": "Found {count} products",
+    "searchButton": "Search",
+    "searching": "Searching...",
+    "sortBy": {
+      "competition": "By Competition",
+      "price": "By Price",
+      "rating": "By Rating",
+      "relevance": "By Relevance",
+      "sales": "By Sales"
+    },
+    "subtitle": "Multi-dimensional filtering of cross-platform products, quickly locate potential bestsellers",
+    "table": {
+      "competition": "Competition",
+      "name": "Product",
+      "platform": "Platform",
+      "price": "Price",
+      "rating": "Rating",
+      "sales": "Sales"
+    },
+    "title": "Product Search"
+  },
+  "settings": {
+    "actions": {
+      "cancel": "Cancel",
+      "clearCache": "Clear Cache",
+      "export": "Export Settings",
+      "reset": "Reset to Default",
+      "save": "Save Settings",
+      "saving": "Saving..."
+    },
+    "currency": {
+      "cny": "Chinese Yuan CNY",
+      "eur": "Euro EUR",
+      "gbp": "British Pound GBP",
+      "jpy": "Japanese Yen JPY",
+      "usd": "US Dollar USD"
+    },
+    "data": {
+      "autoRefresh": "Auto Refresh",
+      "defaultPlatform": "Default Platform",
+      "pageSize": "Items per Page",
+      "title": "Data Settings"
+    },
+    "exchangeRates": {
+      "description": "The following data is used for currency conversion and is automatically updated every hour.",
+      "lastUpdate": "Last Update",
+      "source": "Data Source",
+      "title": "Real-time Exchange Rates"
+    },
+    "general": {
+      "currency": "Default Currency",
+      "language": "Interface Language",
+      "theme": "Theme Mode",
+      "title": "General Settings"
+    },
+    "messages": {
+      "cacheCleared": "Cache cleared successfully",
+      "clearCacheConfirm": "Are you sure you want to clear all cache data? This will delete locally stored product information.",
+      "clearCacheFailed": "Failed to clear cache, please try again later",
+      "resetConfirm": "Are you sure you want to reset to default settings? This action cannot be undone.",
+      "resetSuccess": "Settings have been reset to default values",
+      "saveFailed": "Save failed, please try again later",
+      "saved": "Settings saved"
+    },
+    "notifications": {
+      "email": "Email Notifications",
+      "emailAddress": "Notification Email",
+      "emailPlaceholder": "Please enter the email address to receive notifications",
+      "priceChange": "Price Fluctuation Alert",
+      "salesChange": "Sales Fluctuation Alert",
+      "title": "Notifications"
+    },
+    "platforms": {
+      "aliexpress": "AliExpress",
+      "amazon": "Amazon",
+      "ebay": "eBay",
+      "lazada": "Lazada",
+      "shopee": "Shopee"
+    },
+    "subtitle": "Configure system preferences to match team workflow",
+    "theme": {
+      "auto": "Follow System",
+      "dark": "Dark Mode",
+      "light": "Light Mode"
+    },
+    "title": "Settings"
+  },
+  "watchlist": {
+    "actions": "Actions",
+    "addToCompare": "Add to Compare",
+    "addToWatchlist": "Add to Watchlist",
+    "allProducts": "All Products",
+    "alreadyInCompare": "Already in Compare List",
+    "clearAll": "Clear Watchlist",
+    "clearConfirm": "Are you sure you want to clear the watchlist? This action cannot be undone.",
+    "competition": "Competition",
+    "emptyState": {
+      "actionButton": "Add Products",
+      "description": "After tracking potential products, real-time performance and alerts will be displayed here.",
+      "title": "No Watched Products"
+    },
+    "export": "Export List",
+    "highPerformance": "High Performance",
+    "highSales": "High Sales",
+    "lowCompetition": "Low Competition",
+    "monitoredProducts": "Monitored Products",
+    "needsAttention": "Needs Attention",
+    "noProducts": "No products in watchlist",
+    "platform": "Platform",
+    "price": "Price",
+    "priceDecreased": "Price Decreased",
+    "productName": "Product Name",
+    "rating": "Rating",
+    "removeFromWatchlist": "Remove from Watchlist",
+    "sales": "Sales",
+    "sortByDateAdded": "By Date Added",
+    "sortByPrice": "Sort by Price",
+    "sortByRating": "Sort by Rating",
+    "sortBySales": "Sort by Sales",
+    "status": {
+      "competitionHigh": "High Competition",
+      "good": "Good Performance",
+      "normal": "Normal Observation",
+      "ratingLow": "Low Rating"
+    },
+    "subtitle": "Track key products centrally, discover opportunities and risks in time",
+    "title": "Watchlist"
+  },
+  "empty": {
+    "warm": {
+      "title": "This area is temporarily empty",
+      "desc": "Would you like to load some sample data to see the effect? Or try the search above",
+      "ctaPrimary": "Load Sample Data",
+      "ctaSecondary": "View Guide"
+    }
+  },
+  "onboarding": {
+    "title": "Quick Start",
+    "steps": {
+      "search": "Complete your first search",
+      "compare": "Compare two candidate products",
+      "monitor": "Create a watchlist item"
+    },
+    "cta": {
+      "next": "Continue to Next Step",
+      "dismiss": "Got it",
+      "reset": "Start Over"
+    },
+    "done": "Done",
+    "allDone": "Congratulations, all three steps completed!"
+  },
+  "recommendation": {
+    "title": "Recommendation Reasons",
+    "actions": {
+      "details": "View Details"
+    },
+    "reasons": {
+      "custom": "{text}",
+      "highMargin": "Profit margin leads by {value}%",
+      "lowCompetition": "Competition score is only {value}, belongs to blue ocean opportunity",
+      "sufficientStock": "Sufficient stock, current inventory {value} items",
+      "tagHighlight": "Focus: {tag}",
+      "default": "Excellent overall performance, worth attention"
+    }
+  }
+}
