@@ -70,7 +70,7 @@ async def get_price_trend(
             # 处理价格：可能是字符串或数字
             if isinstance(price, str):
                 # 移除 $ 和逗号
-                price_clean = re.sub(r'[$,]', '', price_str)
+                price_clean = re.sub(r'[$,]', '', price)
                 try:
                     price = float(price_clean)
                 except:
