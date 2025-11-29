@@ -5,7 +5,7 @@
 
 from fastapi import APIRouter, HTTPException
 from app.services.mongodb_writer import bulk_upsert_products_mongodb
-from app.schemas.product import ProductWithCategories, Product, Category
+from app.schemas.product import ProductWithCategories, ProductIn, CategoryIn
 from datetime import datetime
 import uuid
 
@@ -142,10 +142,10 @@ def create_sample_products():
     products_with_categories = []
     
     for item in sample_products:
-        # 创建 Product 对象
-        product = Product(
+        # 创建 ProductIn 对象
+        product = ProductIn(
             name=item["name"],
-            price=item["price"],
+            price=str(item["price"]),  # ProductIn 期望 price 是字符串
             rating=item["rating"],
             review_count_text=item["review_count_text"],
             review_count=item["review_count"],
@@ -157,8 +157,8 @@ def create_sample_products():
             content_hash=f"sample-{uuid.uuid4().hex[:16]}"
         )
         
-        # 创建 Category 对象列表
-        categories = [Category(name=cat) for cat in item["categories"]]
+        # 创建 CategoryIn 对象列表
+        categories = [CategoryIn(name=cat) for cat in item["categories"]]
         
         # 创建 ProductWithCategories
         product_with_categories = ProductWithCategories(
