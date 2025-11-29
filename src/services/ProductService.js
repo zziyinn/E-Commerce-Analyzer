@@ -8,8 +8,9 @@ import { z } from 'zod'
 
 // 生产环境：如果 VITE_API_BASE_URL 为空或未设置，使用相对路径（前后端同域）
 // 开发环境：使用 localhost:8000
+// 注意：import.meta.env.PROD 在 Vite 构建时会被替换为布尔值
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (import.meta.env.PROD ? '' : 'http://localhost:8000')
+  (import.meta.env.MODE === 'production' ? '' : 'http://localhost:8000')
 
 export class ProductService {
   constructor() {

@@ -7,7 +7,7 @@ from pathlib import Path
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from app.api import products, scrape, analysis
+from app.api import products, scrape, analysis, seed
 
 app = FastAPI(
     title="Amazon Products API",
@@ -36,16 +36,21 @@ cors_origins = [
     "http://127.0.0.1:3003",
 ]
 
-# 生产环境添加 Railway 域名
-if is_production and railway_public_domain:
-    cors_origins.extend([
-        f"https://{railway_public_domain}",
-        f"http://{railway_public_domain}",
-    ])
+# 生产环境：允许所有来源（因为前后端同域，但为了安全也可以只允许特定域名）
+if is_production:
+    # 添加 Railway 域名
+    if railway_public_domain:
+        cors_origins.extend([
+            f"https://{railway_public_domain}",
+            f"http://{railway_public_domain}",
+        ])
+    # 生产环境允许所有来源（前后端同域，通常不需要 CORS，但为了兼容性保留）
+    # 如果前后端确实同域，可以设置为 ["*"] 或只允许 Railway 域名
+    cors_origins.append("*")  # 允许所有来源（生产环境前后端同域，通常不需要）
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=cors_origins,
+    allow_origins=cors_origins if not is_production else ["*"],  # 生产环境允许所有来源
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -55,6 +60,7 @@ app.add_middleware(
 app.include_router(products.router)
 app.include_router(scrape.router)
 app.include_router(analysis.router)
+app.include_router(seed.router)
 
 # 注册特定路由（必须在 SPA 路由之前）
 @app.get("/health")
