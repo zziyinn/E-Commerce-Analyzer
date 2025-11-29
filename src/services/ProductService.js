@@ -88,31 +88,40 @@ export class ProductService {
           
           const data = await response.json()
           const batchSize = Array.isArray(data) ? data.length : 0
-        console.log(`[ProductService] Received ${batchSize} products from API (skip=${skip})`)
-        
-        // 轉換 API 數據為內部格式
-        if (Array.isArray(data) && data.length > 0) {
-          data.forEach(product => {
-            try {
-              const normalized = this._normalizeApiProduct(product)
-              this.products.set(normalized.id, normalized)
-              totalLoaded++
-            } catch (err) {
-              console.warn(`[ProductService] Failed to normalize product:`, product, err)
-            }
-          })
+          console.log(`[ProductService] Received ${batchSize} products from API (skip=${skip})`)
           
-          // 如果返回的數據少於 limit，說明已經是最後一頁
-          hasMore = batchSize === limit
-          skip += limit
-        } else {
-          hasMore = false
-        }
-        
-        // 安全限制：最多加載 1000 個產品（10 頁）
-        if (totalLoaded >= 1000) {
-          console.warn(`[ProductService] Reached maximum load limit (1000 products)`)
-          hasMore = false
+          // 轉換 API 數據為內部格式
+          if (Array.isArray(data) && data.length > 0) {
+            data.forEach(product => {
+              try {
+                const normalized = this._normalizeApiProduct(product)
+                this.products.set(normalized.id, normalized)
+                totalLoaded++
+              } catch (err) {
+                console.warn(`[ProductService] Failed to normalize product:`, product, err)
+              }
+            })
+            
+            // 如果返回的數據少於 limit，說明已經是最後一頁
+            hasMore = batchSize === limit
+            skip += limit
+          } else {
+            hasMore = false
+          }
+          
+          // 安全限制：最多加載 1000 個產品（10 頁）
+          if (totalLoaded >= 1000) {
+            console.warn(`[ProductService] Reached maximum load limit (1000 products)`)
+            hasMore = false
+          }
+        } catch (fetchError) {
+          console.error(`[ProductService] Fetch error:`, fetchError)
+          console.error(`[ProductService] Error details:`, {
+            message: fetchError.message,
+            stack: fetchError.stack,
+            name: fetchError.name
+          })
+          throw fetchError
         }
       }
       
