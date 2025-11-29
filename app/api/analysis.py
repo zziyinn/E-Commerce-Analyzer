@@ -52,9 +52,13 @@ async def get_price_trend(
         if platform:
             query["platform"] = platform
         
-        # 获取时间范围
+        # 获取时间范围（如果 created_at 字段存在）
+        # 注意：如果数据库中没有 created_at 字段，不添加时间过滤
         start_date = datetime.utcnow() - timedelta(days=days)
-        query["created_at"] = {"$gte": start_date}
+        # 先检查是否有带 created_at 的产品
+        sample_product = products_collection.find_one(query)
+        if sample_product and "created_at" in sample_product:
+            query["created_at"] = {"$gte": start_date}
         
         # 获取产品数据
         products = list(products_collection.find(query))
@@ -62,20 +66,28 @@ async def get_price_trend(
         # 解析价格
         price_data = []
         for product in products:
-            price_str = product.get("price", "")
-            if isinstance(price_str, str):
+            price = product.get("price")
+            # 处理价格：可能是字符串或数字
+            if isinstance(price, str):
                 # 移除 $ 和逗号
                 price_clean = re.sub(r'[$,]', '', price_str)
                 try:
                     price = float(price_clean)
-                    price_data.append({
-                        "price": price,
-                        "date": product.get("created_at"),
-                        "product_id": str(product.get("_id", "")),
-                        "name": product.get("name", "")
-                    })
                 except:
-                    pass
+                    continue
+            elif isinstance(price, (int, float)):
+                price = float(price)
+            else:
+                continue
+            
+            # 只添加有效价格
+            if price > 0:
+                price_data.append({
+                    "price": price,
+                    "date": product.get("created_at"),
+                    "product_id": str(product.get("_id", "")),
+                    "name": product.get("name", "") or product.get("title", "")
+                })
         
         if not price_data:
             return {
@@ -113,10 +125,19 @@ async def get_price_trend(
                 price_ranges["200+"] += 1
         
         # 趋势分析（简单：比较前半段和后半段）
-        sorted_data = sorted(price_data, key=lambda x: x["date"] if x["date"] else datetime.min)
+        # 如果有日期，按日期排序；否则按产品 ID 排序
+        if any(d.get("date") for d in price_data):
+            sorted_data = sorted(price_data, key=lambda x: x.get("date") or datetime.min)
+        else:
+            sorted_data = price_data  # 没有日期，保持原顺序
+        
         mid_point = len(sorted_data) // 2
-        first_half_avg = sum([d["price"] for d in sorted_data[:mid_point]]) / max(mid_point, 1)
-        second_half_avg = sum([d["price"] for d in sorted_data[mid_point:]]) / max(len(sorted_data) - mid_point, 1)
+        if mid_point > 0:
+            first_half_avg = sum([d["price"] for d in sorted_data[:mid_point]]) / mid_point
+            second_half_avg = sum([d["price"] for d in sorted_data[mid_point:]]) / max(len(sorted_data) - mid_point, 1)
+        else:
+            first_half_avg = avg_price
+            second_half_avg = avg_price
         
         if second_half_avg > first_half_avg * 1.05:
             trend = "increasing"

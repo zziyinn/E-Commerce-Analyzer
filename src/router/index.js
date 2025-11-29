@@ -15,6 +15,10 @@ const lazy = (loader) => loader
 const routes = [
   {
     path: '/',
+    redirect: '/search'
+  },
+  {
+    path: '/dashboard',
     name: 'Dashboard',
     component: lazy(() => import('@/views/Dashboard.vue')),
     meta: {
