@@ -5,8 +5,8 @@ nixPkgs = ["nodejs-18_x", "python310"]
 cmds = [
   "npm install",
   "npm run build",
-  "pip3 install --upgrade pip",
-  "pip3 install -r requirements.txt"
+  "python -m pip install --upgrade pip",
+  "python -m pip install -r requirements.txt"
 ]
 
 [start]

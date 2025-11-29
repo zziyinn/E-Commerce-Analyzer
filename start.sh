@@ -16,6 +16,6 @@ fi
 echo "🔧 Starting backend API..."
 # 设置生产环境变量
 export ENV=${ENV:-production}
-# 使用 python3 确保使用正确的 Python 版本
-exec python3 run_api.py
+# 使用 python 命令（Railway 环境中的标准命令）
+exec python run_api.py
 
