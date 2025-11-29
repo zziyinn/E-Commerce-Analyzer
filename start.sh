@@ -20,8 +20,10 @@ fi
 
 # 启动后端
 echo "🔧 Starting backend API..."
-# 设置生产环境变量
-export ENV=${ENV:-production}
+# 确保设置生产环境变量（Railway 会自动设置 PORT，所以这里强制设置为 production）
+export ENV=production
+echo "✅ ENV set to: $ENV"
+echo "✅ PORT: ${PORT:-not set}"
 # 使用 python 命令（如果在虚拟环境中，会使用 venv 的 python）
 exec python run_api.py
 

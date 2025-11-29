@@ -16,10 +16,12 @@ app = FastAPI(
 )
 
 # 获取环境变量，判断是否为生产环境
-# Railway 环境：如果 ENV 未设置，但 PORT 已设置（Railway 自动设置），则认为是生产环境
-env_value = os.getenv("ENV", "")
+# Railway 环境：如果 PORT 已设置（Railway 自动设置），则认为是生产环境
+# 或者 ENV 明确设置为 "production"
+env_value = os.getenv("ENV", "").lower()
 port_value = os.getenv("PORT", "")
-is_production = env_value == "production" or (env_value == "" and port_value != "")
+# 如果 PORT 存在（Railway 自动设置），或者 ENV=production，则认为是生产环境
+is_production = port_value != "" or env_value == "production"
 railway_public_domain = os.getenv("RAILWAY_PUBLIC_DOMAIN", "")
 
 # CORS 配置
