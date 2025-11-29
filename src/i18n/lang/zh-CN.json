@@ -197,6 +197,7 @@
     "noResultsDesc": "Try changing keywords or loosening filter conditions.",
     "placeholder": "Enter product name, hot keywords or SKU",
     "tryExample": "尝试示例搜索",
+    "loadSampleData": "加载示例数据",
     "platform": "Platform",
     "priceRange": "Price Range",
     "priceRanges": {

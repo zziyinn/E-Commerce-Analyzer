@@ -285,6 +285,14 @@
           <button
             v-if="productStore.products.length === 0"
             class="btn btn-primary"
+            @click="loadSampleData"
+            style="margin-right: 8px;"
+          >
+            {{ $t('search.loadSampleData') || '加载示例数据' }}
+          </button>
+          <button
+            v-if="productStore.products.length === 0"
+            class="btn btn-secondary"
             @click="() => { searchQuery = 'men t-shirt'; handleSearch(); }"
           >
             {{ $t('search.tryExample') || '尝试示例搜索' }}
@@ -616,6 +624,49 @@ export default {
       currentPage.value = 1
     }
 
+    const loadSampleData = async () => {
+      scraping.value = true
+      try {
+        // 检测 API 基础 URL
+        const isProduction = typeof window !== 'undefined' && 
+                            window.location.hostname !== 'localhost' && 
+                            window.location.hostname !== '127.0.0.1'
+        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (isProduction ? '' : 'http://localhost:8000')
+        const url = `${API_BASE_URL}/api/seed/sample-products`
+        
+        console.log(`[Search] Loading sample data from: ${url}`)
+        
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'same-origin',
+        })
+        
+        if (!response.ok) {
+          const errorText = await response.text()
+          console.error(`[Search] Failed to load sample data: ${response.status}`, errorText)
+          throw new Error(`Failed to load sample data: ${response.status}`)
+        }
+        
+        const result = await response.json()
+        console.log(`[Search] Sample data loaded:`, result)
+        
+        // 等待数据写入完成
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        // 刷新产品列表
+        await productStore.refresh()
+        console.log(`[Search] Refreshed, now have ${productStore.products.length} products`)
+      } catch (error) {
+        console.error('[Search] Failed to load sample data:', error)
+        alert('加载示例数据失败，请稍后重试')
+      } finally {
+        scraping.value = false
+      }
+    }
+
     watch(
       [searchQuery, () => filters.platform, () => filters.category, () => filters.priceRange, () => filters.competition],
       () => {
@@ -662,6 +713,7 @@ export default {
       handleSort,
       handleImageClick,
       translatePlatform,
+      loadSampleData,
       isWatched: productStore.isWatched,
       isInCompare: productStore.isInCompare
     }

@@ -9,8 +9,23 @@ import { z } from 'zod'
 // 生产环境：如果 VITE_API_BASE_URL 为空或未设置，使用相对路径（前后端同域）
 // 开发环境：使用 localhost:8000
 // 注意：import.meta.env.PROD 在 Vite 构建时会被替换为布尔值
+// 使用多种方式检测生产环境，确保可靠性
+const isProduction = import.meta.env.MODE === 'production' || 
+                     import.meta.env.PROD === true ||
+                     (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (import.meta.env.MODE === 'production' ? '' : 'http://localhost:8000')
+  (isProduction ? '' : 'http://localhost:8000')
+
+// 调试日志
+console.log('[ProductService] Environment:', {
+  MODE: import.meta.env.MODE,
+  PROD: import.meta.env.PROD,
+  VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
+  isProduction,
+  API_BASE_URL,
+  hostname: typeof window !== 'undefined' ? window.location.hostname : 'N/A'
+})
 
 export class ProductService {
   constructor() {
@@ -48,22 +63,30 @@ export class ProductService {
       
       while (hasMore) {
         const url = `${API_BASE_URL}/api/products/?status=active&limit=${limit}&skip=${skip}`
+        const fullUrl = typeof window !== 'undefined' ? window.location.origin + url : url
         console.log(`[ProductService] Loading products from: ${url}`)
+        console.log(`[ProductService] Full URL: ${fullUrl}`)
         
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        
-        if (!response.ok) {
-          const errorText = await response.text()
-          console.error(`[ProductService] API error ${response.status}:`, errorText)
-          throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`)
-        }
-        
-        const data = await response.json()
+        try {
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            // 添加 credentials 以确保 CORS 正常工作
+            credentials: 'same-origin',
+          })
+          
+          console.log(`[ProductService] Response status: ${response.status}, ok: ${response.ok}`)
+          
+          if (!response.ok) {
+            const errorText = await response.text()
+            console.error(`[ProductService] API error ${response.status}:`, errorText)
+            console.error(`[ProductService] Response headers:`, Object.fromEntries(response.headers.entries()))
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`)
+          }
+          
+          const data = await response.json()
         const batchSize = Array.isArray(data) ? data.length : 0
         console.log(`[ProductService] Received ${batchSize} products from API (skip=${skip})`)
         

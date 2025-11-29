@@ -6,8 +6,13 @@
 // 生产环境：如果 VITE_API_BASE_URL 为空或未设置，使用相对路径（前后端同域）
 // 开发环境：使用 localhost:8000
 // 注意：import.meta.env.PROD 在 Vite 构建时会被替换为布尔值
+// 使用多种方式检测生产环境，确保可靠性
+const isProduction = import.meta.env.MODE === 'production' || 
+                     import.meta.env.PROD === true ||
+                     (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (import.meta.env.MODE === 'production' ? '' : 'http://localhost:8000')
+  (isProduction ? '' : 'http://localhost:8000')
 
 export class AnalysisService {
   /**
