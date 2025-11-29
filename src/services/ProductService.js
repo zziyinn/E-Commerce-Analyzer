@@ -87,7 +87,7 @@ export class ProductService {
           }
           
           const data = await response.json()
-        const batchSize = Array.isArray(data) ? data.length : 0
+          const batchSize = Array.isArray(data) ? data.length : 0
         console.log(`[ProductService] Received ${batchSize} products from API (skip=${skip})`)
         
         // 轉換 API 數據為內部格式
