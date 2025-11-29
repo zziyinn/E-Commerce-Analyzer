@@ -3,6 +3,12 @@ set -e
 
 echo "🚀 Starting deployment process..."
 
+# 激活虚拟环境（如果存在）
+if [ -d "venv" ]; then
+  echo "🔧 Activating virtual environment..."
+  source venv/bin/activate
+fi
+
 # 检查前端是否已构建
 if [ ! -d "dist" ] || [ -z "$(ls -A dist)" ]; then
   echo "📦 Building frontend..."
@@ -16,6 +22,6 @@ fi
 echo "🔧 Starting backend API..."
 # 设置生产环境变量
 export ENV=${ENV:-production}
-# 使用 python 命令（Railway 环境中的标准命令）
+# 使用 python 命令（如果在虚拟环境中，会使用 venv 的 python）
 exec python run_api.py
 
