@@ -16,7 +16,10 @@ app = FastAPI(
 )
 
 # 获取环境变量，判断是否为生产环境
-is_production = os.getenv("ENV", "development") == "production"
+# Railway 环境：如果 ENV 未设置，但 PORT 已设置（Railway 自动设置），则认为是生产环境
+env_value = os.getenv("ENV", "")
+port_value = os.getenv("PORT", "")
+is_production = env_value == "production" or (env_value == "" and port_value != "")
 railway_public_domain = os.getenv("RAILWAY_PUBLIC_DOMAIN", "")
 
 # CORS 配置
@@ -54,9 +57,13 @@ app.include_router(analysis.router)
 # 生产环境：提供静态文件服务
 if is_production:
     dist_path = Path(__file__).parent.parent.parent / "dist"
+    print(f"[DEBUG] is_production: {is_production}, dist_path: {dist_path}, exists: {dist_path.exists()}")
     if dist_path.exists():
         # 挂载静态文件（必须在 SPA 路由之前）
-        app.mount("/assets", StaticFiles(directory=dist_path / "assets"), name="assets")
+        assets_path = dist_path / "assets"
+        if assets_path.exists():
+            app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
+            print(f"[DEBUG] Mounted /assets from {assets_path}")
         
         # 提供 index.html 用于前端路由（放在最后，作为 fallback）
         @app.get("/{full_path:path}")
@@ -79,18 +86,25 @@ if is_production:
             if index_file.exists():
                 with open(index_file, "r", encoding="utf-8") as f:
                     return Response(content=f.read(), media_type="text/html")
+            print(f"[DEBUG] index.html not found at {index_file}")
             return Response(status_code=404)
+    else:
+        print(f"[WARNING] dist directory not found at {dist_path}")
 
 
 @app.get("/")
 def root():
     # 生产环境返回前端页面，开发环境返回 API 信息
     if is_production:
-        index_file = Path(__file__).parent.parent.parent / "dist" / "index.html"
+        dist_path = Path(__file__).parent.parent.parent / "dist"
+        index_file = dist_path / "index.html"
+        print(f"[DEBUG] Root path - is_production: {is_production}, index_file: {index_file}, exists: {index_file.exists()}")
         if index_file.exists():
             with open(index_file, "r", encoding="utf-8") as f:
                 return Response(content=f.read(), media_type="text/html")
-    return {"message": "Amazon Products API", "version": "1.0.0"}
+        else:
+            print(f"[WARNING] index.html not found at {index_file}, dist_path exists: {dist_path.exists()}")
+    return {"message": "Amazon Products API", "version": "1.0.0", "is_production": is_production, "dist_exists": (Path(__file__).parent.parent.parent / "dist").exists()}
 
 
 @app.get("/health")
