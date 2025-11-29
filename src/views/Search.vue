@@ -264,23 +264,39 @@
         </div>
       </div>
       
-      <!-- 绌虹姸鎬?-->
+      <!-- 空状态 -->
       <div
         v-else
         class="empty-results"
       >
+        <div class="empty-icon">🔍</div>
         <div class="empty-title">
-          {{ $t('search.noResults') }}
+          {{ loading ? $t('search.loading') || '加载中...' : (productStore.products.length === 0 ? ($t('search.noData') || '暂无产品数据') : $t('search.noResults')) }}
         </div>
         <div class="empty-text">
-          {{ $t('search.noResultsDesc') }}
+          <template v-if="productStore.products.length === 0">
+            {{ $t('search.noDataDesc') || '请在搜索框中输入关键词，然后点击"搜索"按钮来爬取产品数据。' }}
+          </template>
+          <template v-else>
+            {{ $t('search.noResultsDesc') || '尝试更改关键词或放宽筛选条件。' }}
+          </template>
         </div>
-        <button
-          class="btn btn-primary"
-          @click="clearFilters"
-        >
-          {{ $t('search.clearAllFilters') }}
-        </button>
+        <div class="empty-actions">
+          <button
+            v-if="productStore.products.length === 0"
+            class="btn btn-primary"
+            @click="() => { searchQuery = 'men t-shirt'; handleSearch(); }"
+          >
+            {{ $t('search.tryExample') || '尝试示例搜索' }}
+          </button>
+          <button
+            v-else
+            class="btn btn-primary"
+            @click="clearFilters"
+          >
+            {{ $t('search.clearAllFilters') || '清除所有筛选' }}
+          </button>
+        </div>
       </div>
     </div>
   </div>

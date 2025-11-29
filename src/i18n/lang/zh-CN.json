@@ -190,9 +190,13 @@
     "competition": "Competition",
     "keyword": "Keyword",
     "noPriceLimit": "No Price Limit",
+    "loading": "加载中...",
+    "noData": "暂无产品数据",
+    "noDataDesc": "请在搜索框中输入关键词，然后点击"搜索"按钮来爬取产品数据。",
     "noResults": "No matching results",
     "noResultsDesc": "Try changing keywords or loosening filter conditions.",
     "placeholder": "Enter product name, hot keywords or SKU",
+    "tryExample": "尝试示例搜索",
     "platform": "Platform",
     "priceRange": "Price Range",
     "priceRanges": {
