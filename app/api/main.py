@@ -71,11 +71,10 @@ if is_production:
         @app.get("/{full_path:path}")
         async def serve_spa(full_path: str):
             """提供 SPA 支持，所有非 API 路由返回 index.html"""
-            # 排除 API 路由和文档路由
+            # 排除 API 路由和文档路由（注意：health 路由已经在上面定义，这里不需要排除）
             if (full_path.startswith("api/") or 
                 full_path.startswith("docs") or 
                 full_path.startswith("openapi.json") or
-                full_path == "health" or
                 full_path == "favicon.ico"):
                 return Response(status_code=404)
             
